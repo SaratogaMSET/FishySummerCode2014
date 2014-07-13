@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * The base for all commands. All atomic commands should subclass CommandBase.
- * CommandBase stores creates and stores each control system. To access a
- * subsystem elsewhere in your code in your code use CommandBase.exampleSubsystem
+ * The base for all commands. All atomic commands should subclass CommandBase. CommandBase stores creates and stores each control system. To access a subsystem elsewhere in your code in your code use
+ * CommandBase.exampleSubsystem
+ *
  * @author Author
  */
 public abstract class CommandBase extends Command {
@@ -29,14 +29,35 @@ public abstract class CommandBase extends Command {
         compressor = new Compressor(RobotMap.PRESSURE_SWTICH_CHANNEL, RobotMap.PRESSURE_RELAY_CHANNEL);
         compressor.start();
         oi = new OI();
-        
+
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(exampleSubsystem);
     }
 
     public static Command oneBallautonomous() {
-        return new 
-        }
+        return new Command() {
+
+            protected void initialize() {
+                //throw new java.lang.UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            protected void execute() {
+                //  throw new java.lang.UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            protected boolean isFinished() {
+                return true;
+            }
+
+            protected void end() {
+                // throw new java.lang.UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            protected void interrupted() {
+                // throw new java.lang.UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+    }
 
     public CommandBase(String name) {
         super(name);
