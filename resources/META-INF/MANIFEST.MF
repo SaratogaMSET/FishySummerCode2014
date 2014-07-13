@@ -1,0 +1,6 @@
+MIDlet-Name: FishyCode2014Summer
+MIDlet-Version: 1.0.0
+MIDlet-Vendor: FIRST
+MIDlet-1: FishyRobot, , com.team649.frc2014summer.FishyRobot
+MicroEdition-Profile: IMP-1.0
+MicroEdition-Configuration: CLDC-1.1
