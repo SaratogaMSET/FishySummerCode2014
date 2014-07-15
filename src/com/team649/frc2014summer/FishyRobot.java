@@ -26,7 +26,7 @@ public class FishyRobot extends IterativeRobot {
      */
     public void robotInit() {
         // instantiate the command used for the autonomous period
-        autonomousCommand = CommandBase.oneBallautonomous();
+        autonomousCommand = CommandBase.oneBallAutonomous();
 
         // Initialize all subsystems
         CommandBase.init();

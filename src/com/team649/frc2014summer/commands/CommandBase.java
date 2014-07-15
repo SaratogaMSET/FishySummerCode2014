@@ -2,9 +2,10 @@ package com.team649.frc2014summer.commands;
 
 import com.team649.frc2014summer.OI;
 import com.team649.frc2014summer.RobotMap;
-import com.team649.frc2014summer.subsystems.ExampleSubsystem;
+import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -17,7 +18,7 @@ public abstract class CommandBase extends Command {
 
     public static OI oi;
     // Create a single static instance of all of your subsystems
-    public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+    public static DriveTrainSubsystem exampleSubsystem = new DriveTrainSubsystem();
     public static Compressor compressor;
 
     public static void init() {
@@ -34,29 +35,10 @@ public abstract class CommandBase extends Command {
         SmartDashboard.putData(exampleSubsystem);
     }
 
-    public static Command oneBallautonomous() {
-        return new Command() {
-
-            protected void initialize() {
-                //throw new java.lang.UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            protected void execute() {
-                //  throw new java.lang.UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            protected boolean isFinished() {
-                return true;
-            }
-
-            protected void end() {
-                // throw new java.lang.UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            protected void interrupted() {
-                // throw new java.lang.UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
+    public static Command oneBallAutonomous() {
+        CommandGroup mainAutonomous = new CommandGroup("mainAutoSeq");
+        mainAutonomous.addSequential(mainAutonomous);
+        return mainAutonomous;
     }
 
     public CommandBase(String name) {
