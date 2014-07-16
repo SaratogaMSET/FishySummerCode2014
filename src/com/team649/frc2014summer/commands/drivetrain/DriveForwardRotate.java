@@ -31,7 +31,6 @@ public class DriveForwardRotate extends CommandBase {
     }
 
     protected boolean isFinished() {
-    return true;
     }
 
     protected void end() {
