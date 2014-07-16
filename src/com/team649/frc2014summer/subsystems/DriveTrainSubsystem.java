@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.Vector;
 
 /**
  *
@@ -23,6 +25,9 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
     private Encoder[] encoders;
     private PIDController649 PIDController;
     private DoubleSolenoid shifterSolenoid;
+    private double accel;
+    private static final int UPDATE_PERIOD = 100;
+    private Vector lastRates;
     
     
     public DriveTrainSubsystem(){
@@ -65,7 +70,36 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
         }
         return encoderSumVal/numEncoders;
     }
+ public int updateAccel() {
+        double rate = getVelocity();
 
+        while (lastRates.size() >= SmartDashboard.getNumber("numPoints")) {
+            lastRates.removeElementAt(0);
+        }
+        lastRates.addElement(new Double(rate));
+        double avgX = 0;
+        for (int i = 0; i < lastRates.size(); i++) {
+            avgX += i;
+        }
+        double avgY = 0;
+        for (int i = 0; i < lastRates.size(); i++) {
+            avgY += ((Double) lastRates.elementAt(i)).doubleValue();
+        }
+        double sumTop = 0;
+        for (int i = 0; i < lastRates.size(); i++) {
+            sumTop += (i - lastRates.size() / 2 + 0.5) * (((Double) lastRates.elementAt(i)).doubleValue() - avgY);
+        }
+
+        double sumBot = 0;
+        for (int i = 0; i < lastRates.size(); i++) {
+            sumBot += (i - avgX) * (i - avgX);
+        }
+
+        SmartDashboard.putNumber("veloc", rate);
+        this.accel = 1000 * sumTop / sumBot;
+        SmartDashboard.putNumber("accel", this.accel);
+        return UPDATE_PERIOD;
+    }
     private double getVelocity() {
         int numEncoders = encoders.length;
         double encoderSumVal =0;
