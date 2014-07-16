@@ -22,7 +22,7 @@ public class DriveForwardRotate extends CommandBase {
         driveRotation = driveRot;
     }
     protected void initialize() {
-        
+        CommandBase.driveTrainSubsystem.driveFwdRot(driveForward,driveRotation);
         
     }
 
@@ -31,7 +31,7 @@ public class DriveForwardRotate extends CommandBase {
     }
 
     protected boolean isFinished() {
-    
+    return true;
     }
 
     protected void end() {
