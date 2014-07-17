@@ -6,12 +6,11 @@
 /*----------------------------------------------------------------------------*/
 package com.team649.frc2014summer;
 
+import com.team649.frc2014summer.commands.CommandBase;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import com.team649.frc2014summer.commands.CommandBase;
-import com.team649.frc2014summer.commands.ExampleCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as described in the IterativeRobot documentation. If you change the name of this class or
@@ -63,6 +62,8 @@ public class FishyRobot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        getWatchdog().feed();
+        
     }
 
     /**
