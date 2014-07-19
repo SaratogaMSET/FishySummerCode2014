@@ -7,6 +7,7 @@
 package com.team649.frc2014summer;
 
 import com.team649.frc2014summer.commands.CommandBase;
+import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -55,6 +56,7 @@ public class FishyRobot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         autonomousCommand.cancel();
+        
     }
 
     /**
@@ -63,7 +65,16 @@ public class FishyRobot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         getWatchdog().feed();
-        
+        CommandBase.driveForwardRotate(CommandBase.oi.driver.getDriveForward(), CommandBase.oi.driver.getDriveRotation());
+        if (CommandBase.oi.driver.isTriggerButtonPressed()) {
+                CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.LOW_SPEED);
+                CommandBase.driveTrainSubsystem.resetEncoders();
+            } else {
+                CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.HIGH_SPEED);
+            }
+        CommandBase.driveTrainSubsystem.printEncoders();
+        Display.println(1, "" + CommandBase.driveTrainSubsystem.getAcceleration());
+
     }
 
     /**

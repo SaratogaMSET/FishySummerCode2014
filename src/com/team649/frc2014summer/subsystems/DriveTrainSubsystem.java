@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +27,9 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
     private double accel;
     private static final int UPDATE_PERIOD = 100;
     private Vector lastRates;
+    
+    public static final boolean HIGH_SPEED = false;
+    public static final boolean LOW_SPEED = true;
 
     public static final class EncoderBasedDriving {
 
@@ -112,7 +116,11 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
         }
         return encoderSumVal / numEncoders;
     }
-
+    
+        public double getAcceleration() {
+            return accel;
+        }
+   
      public int updateAccel() {
         double rate = getVelocity();
 

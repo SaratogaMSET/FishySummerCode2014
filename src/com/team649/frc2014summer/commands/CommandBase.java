@@ -2,6 +2,7 @@ package com.team649.frc2014summer.commands;
 
 import com.team649.frc2014summer.OI;
 import com.team649.frc2014summer.RobotMap;
+import com.team649.frc2014summer.commands.drivetrain.DriveForwardRotate;
 import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Command;
@@ -40,7 +41,11 @@ public abstract class CommandBase extends Command {
         mainAutonomous.addSequential(mainAutonomous);
         return mainAutonomous;
     }
-
+    
+    public static Command driveForwardRotate(double driveForward, double driveRotation) {
+        return new DriveForwardRotate(driveForward, driveRotation);
+    }
+    
     public CommandBase(String name) {
         super(name);
     }
