@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,19 +26,19 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
     private double accel;
     private static final int UPDATE_PERIOD = 100;
     private Vector lastRates;
-    
+
     public static final boolean HIGH_SPEED = false;
     public static final boolean LOW_SPEED = true;
 
     public static final class EncoderBasedDriving {
 
-        private static final double ENCODER_DISTANCE_PER_PULSE = (4 * Math.PI / 128);
-        private static final double MIN_MOTOR_POWER = 0.25;
+        public static double ENCODER_DISTANCE_PER_PULSE = (4 * Math.PI / 128) * (34/40);
+        public static final double MIN_MOTOR_POWER = 0.25;
         public static double Kp = 0;
         public static double Ki = 0;
         public static double Kd = 0;
         private static double ABSOLUTE_TOLERANCE = 0;
-        private static double MAX_MOTOR_POWER = 0;
+        public static double MAX_MOTOR_POWER = 0;
     }
 
     public DriveTrainSubsystem() {
@@ -67,9 +66,7 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
 
     }
 
-    
-
-   //PID
+    //PID
     public PIDController649 getPID() {
         return PIDController;
     }
@@ -87,8 +84,6 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
         driveFwdRot(output, 0);
     }
 
-    
-    
     //Get Info from encoders
     public double pidGet() {
         return getDistance();
@@ -107,7 +102,7 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
         return encoderSumVal / numEncoders;
     }
 
-    private double getDistance() {
+    public double getDistance() {
         //To change body of generated methods, choose Tools | Templates.
         int numEncoders = encoders.length;
         double encoderSumVal = 0;
@@ -116,12 +111,12 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
         }
         return encoderSumVal / numEncoders;
     }
-    
-        public double getAcceleration() {
-            return accel;
-        }
-   
-     public int updateAccel() {
+
+    public double getAcceleration() {
+        return accel;
+    }
+
+    public int updateAccel() {
         double rate = getVelocity();
 
         while (lastRates.size() >= SmartDashboard.getNumber("numPoints")) {
@@ -151,7 +146,7 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
         SmartDashboard.putNumber("accel", this.accel);
         return UPDATE_PERIOD;
     }
-     
+
     //Control Encoders
     public void startEncoders() {
         for (int i = 0; i < encoders.length; i++) {
@@ -168,16 +163,16 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
         lastRates.removeAllElements();
         accel = 0;
     }
-    
-     public void printEncoders() {
+
+    public void printEncoders() {
         for (int i = 0; i < encoders.length; i++) {
             Display.queue("Dis " + encoders[i].getDistance());
             Display.queue("Vel " + encoders[i].getRate());
         }
     }
-     
+
     //Drive Train Control
-     public void driveFwdRot(double fwd, double rot) {
+    public void driveFwdRot(double fwd, double rot) {
         double left = fwd + rot, right = fwd - rot;
         double max = Math.max(1, Math.max(Math.abs(left), Math.abs(right)));
         left /= max;
@@ -196,12 +191,16 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
         }
     }
 
-   public void shiftDriveGear(boolean lowGear) {
+    public void shiftDriveGear(boolean lowGear) {
         if (lowGear) {
             shifterSolenoid.set(DoubleSolenoid.Value.kForward);
+            DriveTrainSubsystem.EncoderBasedDriving.ENCODER_DISTANCE_PER_PULSE = (4 * Math.PI / 128) * (14/60);
         } else {
             shifterSolenoid.set(DoubleSolenoid.Value.kReverse);
+            DriveTrainSubsystem.EncoderBasedDriving.ENCODER_DISTANCE_PER_PULSE = (4 * Math.PI / 128) * (34/40);
+
         }
+
     }
-        
+
 }
