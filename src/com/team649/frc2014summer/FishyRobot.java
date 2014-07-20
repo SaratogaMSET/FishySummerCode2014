@@ -9,9 +9,11 @@ package com.team649.frc2014summer;
 import com.team649.frc2014summer.commands.CommandBase;
 import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as described in the IterativeRobot documentation. If you change the name of this class or
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class FishyRobot extends IterativeRobot {
 
     private Command autonomousCommand;
+    Timer time;
 
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.
@@ -56,7 +59,8 @@ public class FishyRobot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         autonomousCommand.cancel();
-        
+        time = new Timer();
+        time.start();
     }
 
     /**
@@ -67,14 +71,14 @@ public class FishyRobot extends IterativeRobot {
         getWatchdog().feed();
         CommandBase.driveForwardRotate(CommandBase.oi.driver.getDriveForward(), CommandBase.oi.driver.getDriveRotation());
         if (CommandBase.oi.driver.isTriggerButtonPressed()) {
-                CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.LOW_SPEED);
-                CommandBase.driveTrainSubsystem.resetEncoders();
-            } else {
-                CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.HIGH_SPEED);
-            }
-        CommandBase.driveTrainSubsystem.printEncoders();
-        Display.println(1, "" + CommandBase.driveTrainSubsystem.getAcceleration());
-
+            CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.LOW_SPEED);
+            CommandBase.driveTrainSubsystem.resetEncoders();
+        } else {
+            CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.HIGH_SPEED);
+        }
+       // CommandBase.driveTrainSubsystem.printEncoders();
+        SmartDashboard.putNumber("Acceleration", CommandBase.driveTrainSubsystem.getAcceleration());
+        SmartDashboard.putNumber("Time (mill)", time.get());
     }
 
     /**
