@@ -69,14 +69,23 @@ public class FishyRobot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         getWatchdog().feed();
-        CommandBase.driveForwardRotate(CommandBase.oi.driver.getDriveForward(), CommandBase.oi.driver.getDriveRotation());
+
+        if (CommandBase.oi.driver.isSwitchFrontButtonPressed()) {
+            CommandBase.driveForwardRotate(-CommandBase.oi.driver.getDriveForward(), -CommandBase.oi.driver.getDriveRotation());
+
+        } else {
+            CommandBase.driveForwardRotate(CommandBase.oi.driver.getDriveForward(), CommandBase.oi.driver.getDriveRotation());
+        }
+        
+        
         if (CommandBase.oi.driver.isTriggerButtonPressed()) {
             CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.LOW_SPEED);
             CommandBase.driveTrainSubsystem.resetEncoders();
         } else {
             CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.HIGH_SPEED);
         }
-       // CommandBase.driveTrainSubsystem.printEncoders();
+
+        // CommandBase.driveTrainSubsystem.printEncoders();
         SmartDashboard.putNumber("Acceleration", CommandBase.driveTrainSubsystem.getAcceleration());
         SmartDashboard.putNumber("Time (mill)", time.get());
     }

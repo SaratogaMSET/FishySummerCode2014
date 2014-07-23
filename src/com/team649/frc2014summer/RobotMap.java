@@ -44,8 +44,10 @@ public class RobotMap {
         
     }
     
+    
     public static class SHOOTER {
-        public static final int MOTOR_PORT = 5;
+        public static final int MOTOR_PORT_1 = 5;
+        public static final int MOTOR_PORT_2 = 6;
         
     }
 }

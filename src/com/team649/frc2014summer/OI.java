@@ -54,6 +54,10 @@ public class OI {
          public boolean isTriggerButtonPressed() {
             return(vertical.getRawButton(1) || horizontal.getRawButton(1));
         }
+
+        boolean isSwitchFrontButtonPressed() {
+            return(vertical.getRawButton(3) || horizontal.getRawButton(3));
+        }
     }
 
     public class Shooter {
