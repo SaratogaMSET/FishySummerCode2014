@@ -21,6 +21,7 @@ public class RobotMap {
     public static final int SHOOTER_JOYSTICK = 3;
 
     public static class DRIVE_TRAIN {
+
         public static final int FORWARD_SOLENOID_CHANNEL = 1;
         public static final int REVERSE_SOLENOID_CHANNEL = 2;
         //Array holds victor or encoder ports for each of drive train motors
@@ -28,26 +29,31 @@ public class RobotMap {
         public static final int[] ENCODERS = {1, 2, 3, 4};
 
     }
-    
-    public static class FRONT_PICK_UP {
-     public static final int LEFT_SOLENOID_FORWARD_CHANNEL = 3;   
-     public static final int LEFT_SOLENOID_REVERSE_CHANNEL = 4;   
-     public static final int RIGHT_SOLENOID_FORWARD_CHANNEL = 5;   
-     public static final int RIGHT_SOLENOID_REVERSE_CHANNEL = 6;   
+
+    public static class ANGLED_PICK_UP {
+
+        public static final int LEFT_SOLENOID_FORWARD_CHANNEL = 3;
+        public static final int LEFT_SOLENOID_REVERSE_CHANNEL = 4;
+        public static final int RIGHT_SOLENOID_FORWARD_CHANNEL = 5;
+        public static final int RIGHT_SOLENOID_REVERSE_CHANNEL = 6;
+        public static final int MOTOR_PORT = 7;
+
     }
-    
-    public static class BACK_PICK_UP {
-     public static final int LEFT_SOLENOID_FORWARD_CHANNEL = 7;   
-     public static final int LEFT_SOLENOID_REVERSE_CHANNEL = 8;   
-     public static final int RIGHT_SOLENOID_FORWARD_CHANNEL = 9;   
-     public static final int RIGHT_SOLENOID_REVERSE_CHANNEL = 10;
-        
+
+    public static class HINGE_PICK_UP {
+
+        public static final int LEFT_SOLENOID_FORWARD_CHANNEL = 7;
+        public static final int LEFT_SOLENOID_REVERSE_CHANNEL = 8;
+        public static final int RIGHT_SOLENOID_FORWARD_CHANNEL = 9;
+        public static final int RIGHT_SOLENOID_REVERSE_CHANNEL = 10;
+        public static final int MOTOR_PORT = 8;
+
     }
-    
-    
+
     public static class SHOOTER {
+
         public static final int MOTOR_PORT_1 = 5;
         public static final int MOTOR_PORT_2 = 6;
-        
+
     }
 }
