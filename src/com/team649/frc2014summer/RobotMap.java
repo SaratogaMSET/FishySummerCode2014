@@ -40,7 +40,7 @@ public class RobotMap {
 
     }
 
-    public static class HINGE_PICK_UP {
+    public static class HINGED_PICK_UP {
 
         public static final int LEFT_SOLENOID_FORWARD_CHANNEL = 7;
         public static final int LEFT_SOLENOID_REVERSE_CHANNEL = 8;
