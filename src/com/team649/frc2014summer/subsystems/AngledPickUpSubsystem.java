@@ -21,7 +21,7 @@ public class AngledPickUpSubsystem extends Subsystem {
 
     private SpeedController motor;
     private DoubleSolenoid leftPiston;
-    private DoubleSolenoid rightPiston;
+    private DoubleSolenoid rightPiston; 
     
     public static final double PICK_UP_MOTOR_SPEED = -0.4;
     public static final double PURGE_MOTOR_SPEED = 0.4;
@@ -48,6 +48,8 @@ public class AngledPickUpSubsystem extends Subsystem {
         motor.set(0);
     }
     
+   
+    
     public void deployPickup() {
         leftPiston.set(LEFT_PISTON_DEPLOYED_STATE);
         rightPiston.set(RIGHT_PISTON_DEPLOYED_STATE);
@@ -57,6 +59,14 @@ public class AngledPickUpSubsystem extends Subsystem {
         leftPiston.set(LEFT_PISTON_RETRACTED_STATE);
         rightPiston.set(RIGHT_PISTON_RETRACTED_STATE);
     }
+    
+     public boolean haveBall() {
+        return true;
+    }
+     
+     public boolean isPickUpRetracted() {
+         return true;
+     }
     
     protected void initDefaultCommand() {
     }

@@ -3,7 +3,9 @@ package com.team649.frc2014summer.commands;
 import com.team649.frc2014summer.OI;
 import com.team649.frc2014summer.RobotMap;
 import com.team649.frc2014summer.commands.drivetrain.DriveForwardRotate;
+import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
 import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
+import com.team649.frc2014summer.subsystems.HingedPickUpSubsystem;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -20,6 +22,8 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+    public static AngledPickUpSubsystem angledPickUpSubsystem = new AngledPickUpSubsystem();
+    public static HingedPickUpSubsystem hingedPickUpSubsystem = new HingedPickUpSubsystem();
     public static Compressor compressor;
 
     public static void init() {
