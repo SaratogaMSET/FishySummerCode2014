@@ -54,6 +54,14 @@ public class HingedPickUpSubsystem extends Subsystem {
         rightPiston.set(RIGHT_PISTON_RETRACTED_STATE);
     }
 
+    public boolean haveBall() {
+        return true;
+    }
+
+    public boolean isPickUpRetracted() {
+        return true;
+    }
+
     protected void initDefaultCommand() {
     }
 

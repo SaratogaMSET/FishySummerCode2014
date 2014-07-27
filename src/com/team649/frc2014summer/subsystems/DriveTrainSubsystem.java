@@ -1,7 +1,7 @@
 package com.team649.frc2014summer.subsystems;
 
-import com.team649.frc2014.pid_control.PIDController649;
-import com.team649.frc2014.pid_control.PIDVelocitySource;
+import com.team649.frc2014summer.pid_control.PIDController649;
+import com.team649.frc2014summer.pid_control.PIDVelocitySource;
 import com.team649.frc2014summer.Display;
 import com.team649.frc2014summer.RobotMap;
 import edu.wpi.first.wpilibj.CounterBase;

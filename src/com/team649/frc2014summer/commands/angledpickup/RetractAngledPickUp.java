@@ -13,7 +13,7 @@ import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
  *
  * @author Kabi
  */
-public class RetractPickUp extends CommandBase{
+public class RetractAngledPickUp extends CommandBase{
 
     protected void initialize() {
         angledPickUpSubsystem.retractPickup();
@@ -24,7 +24,6 @@ public class RetractPickUp extends CommandBase{
         
     }
     
-
     protected boolean isFinished() {
         return angledPickUpSubsystem.isPickUpRetracted();
     }

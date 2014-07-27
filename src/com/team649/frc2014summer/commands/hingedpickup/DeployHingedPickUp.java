@@ -3,27 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.team649.frc2014summer.commands.angledpickup;
+package com.team649.frc2014summer.commands.hingedpickup;
 
 import com.team649.frc2014summer.commands.CommandBase;
-import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
+import com.team649.frc2014summer.subsystems.HingedPickUpSubsystem;
 
 /**
  *
  * @author Kabi
  */
-public class DeployPickUp extends CommandBase {
+public class DeployHingedPickUp extends CommandBase {
 
     protected void initialize() {
-        angledPickUpSubsystem.deployPickup();
+        hingedPickUpSubsystem.deployPickup();
     }
 
     protected void execute() {
-        angledPickUpSubsystem.runMotor(AngledPickUpSubsystem.PICK_UP_MOTOR_SPEED);
+        hingedPickUpSubsystem.runMotor(hingedPickUpSubsystem.PICK_UP_MOTOR_SPEED);
     }
 
     protected boolean isFinished() {
-        return angledPickUpSubsystem.haveBall();
+        return hingedPickUpSubsystem.haveBall();
     }
 
     protected void end() {
