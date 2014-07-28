@@ -54,6 +54,9 @@ public class RobotMap {
 
         public static final int MOTOR_PORT_1 = 5;
         public static final int MOTOR_PORT_2 = 6;
+        public static final int POTENTIOMETER_PORT = 1;
+        public static final int LIMIT_SWITCH_1_PORT = 3;
+        public static final int LIMIT_SWITCH_2_PORT = 4;
 
     }
 }
