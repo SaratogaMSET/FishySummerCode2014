@@ -19,7 +19,7 @@ public class DeployHingedPickUp extends CommandBase {
     }
 
     protected void execute() {
-        hingedPickUpSubsystem.runMotor(hingedPickUpSubsystem.PICK_UP_MOTOR_SPEED);
+        hingedPickUpSubsystem.runMotor(HingedPickUpSubsystem.PICK_UP_MOTOR_SPEED);
     }
 
     protected boolean isFinished() {

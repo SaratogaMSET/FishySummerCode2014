@@ -65,6 +65,10 @@ public class ShooterSubsystem extends Subsystem implements PIDOutput{
         winchMotor2.set(MOTOR_SPEED);
     }
     
+    public void shoot(){
+        
+    }
+    
     
     protected void initDefaultCommand() {
     }

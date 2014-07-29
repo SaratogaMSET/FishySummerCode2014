@@ -61,7 +61,21 @@ public class OI {
     }
 
     public class Shooter {
+        public boolean isDeployAngledPickUpButtonPressed() {
+            return(ShooterJoystick.getRawButton(5));
+        }
         
+        public boolean isRetractAngledPickUpButtonPressed() {
+            return(ShooterJoystick.getRawButton(6));
+        }
+        
+        public boolean isLowGoalShotButtonPressed() {
+            return(ShooterJoystick.getRawButton(4));
+        }
+        
+        public boolean isDistanceShotButtonPressed() {
+            return(ShooterJoystick.getRawButton(3));
+        }
     }
 
 }

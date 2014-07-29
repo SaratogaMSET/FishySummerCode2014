@@ -7,6 +7,7 @@
 package com.team649.frc2014summer;
 
 import com.team649.frc2014summer.commands.CommandBase;
+import com.team649.frc2014summer.commands.angledpickup.DeployAngledPickUp;
 import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -84,11 +85,17 @@ public class FishyRobot extends IterativeRobot {
         } else {
             CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.HIGH_SPEED);
         }
+        
+        if(CommandBase.oi.shooter.isDeployAngledPickUpButtonPressed()) {
+            CommandBase.deployAngledPickUp();
+        }
+        
+       if(CommandBase.oi.shooter.isRetractAngledPickUpButtonPressed()) {
+           CommandBase.retractAngledPickUp();
+       }
 
         // CommandBase.driveTrainSubsystem.printEncoders();
-        SmartDashboard.putNumber("Acceleration", CommandBase.driveTrainSubsystem.getAcceleration());
-        SmartDashboard.putNumber("Time (mill)", time.get());
-    }
+         }
 
     /**
      * This function is called periodically during test mode

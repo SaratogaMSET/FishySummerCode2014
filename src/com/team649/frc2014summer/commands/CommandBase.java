@@ -2,6 +2,8 @@ package com.team649.frc2014summer.commands;
 
 import com.team649.frc2014summer.OI;
 import com.team649.frc2014summer.RobotMap;
+import com.team649.frc2014summer.commands.angledpickup.DeployAngledPickUp;
+import com.team649.frc2014summer.commands.angledpickup.RetractAngledPickUp;
 import com.team649.frc2014summer.commands.drivetrain.DriveForwardRotate;
 import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
 import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
@@ -48,6 +50,14 @@ public abstract class CommandBase extends Command {
     
     public static Command driveForwardRotate(double driveForward, double driveRotation) {
         return new DriveForwardRotate(driveForward, driveRotation);
+    }
+    
+    public static Command deployAngledPickUp() {
+        return new DeployAngledPickUp();
+    }
+    
+    public static Command retractAngledPickUp() {
+        return new RetractAngledPickUp();
     }
     
     public CommandBase(String name) {
