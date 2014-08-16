@@ -36,6 +36,9 @@ public class RobotMap {
         public static final int LEFT_SOLENOID_REVERSE_CHANNEL = 4;
         public static final int RIGHT_SOLENOID_FORWARD_CHANNEL = 5;
         public static final int RIGHT_SOLENOID_REVERSE_CHANNEL = 6;
+        public static final int ENCODER_SOURCE_A = 5;
+        public static final int ENCODER_SOURCE_B = 6;
+
         public static final int MOTOR_PORT = 7;
 
     }

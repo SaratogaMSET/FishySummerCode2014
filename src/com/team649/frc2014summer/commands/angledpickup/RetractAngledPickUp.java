@@ -8,6 +8,7 @@ package com.team649.frc2014summer.commands.angledpickup;
 
 import com.team649.frc2014summer.commands.CommandBase;
 import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
@@ -15,8 +16,12 @@ import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
  */
 public class RetractAngledPickUp extends CommandBase{
 
+    private Timer clock;
+
     protected void initialize() {
         angledPickUpSubsystem.retractPickup();
+        clock = new Timer();
+        clock.start();
     }
 
     protected void execute() {
@@ -25,7 +30,7 @@ public class RetractAngledPickUp extends CommandBase{
     }
     
     protected boolean isFinished() {
-        return angledPickUpSubsystem.isPickUpRetracted();
+        return(clock.get() == 1000);
     }
 
     protected void end() {

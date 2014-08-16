@@ -47,19 +47,27 @@ public abstract class CommandBase extends Command {
         mainAutonomous.addSequential(mainAutonomous);
         return mainAutonomous;
     }
-    
+
     public static Command driveForwardRotate(double driveForward, double driveRotation) {
         return new DriveForwardRotate(driveForward, driveRotation);
     }
-    
+
     public static Command deployAngledPickUp() {
         return new DeployAngledPickUp();
     }
-    
+
     public static Command retractAngledPickUp() {
         return new RetractAngledPickUp();
     }
-    
+
+    public static Command pickUpBall() {
+        CommandGroup pickUpBallSequence = new CommandGroup();
+        
+        pickUpBallSequence.addSequential(deployAngledPickUp());
+        pickUpBallSequence.addSequential(retractAngledPickUp());
+        return pickUpBallSequence;
+    }
+
     public CommandBase(String name) {
         super(name);
     }
