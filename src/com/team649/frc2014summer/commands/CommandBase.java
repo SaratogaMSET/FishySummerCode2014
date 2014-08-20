@@ -3,6 +3,7 @@ package com.team649.frc2014summer.commands;
 import com.team649.frc2014summer.OI;
 import com.team649.frc2014summer.RobotMap;
 import com.team649.frc2014summer.commands.angledpickup.DeployAngledPickUp;
+import com.team649.frc2014summer.commands.angledpickup.HoldBall;
 import com.team649.frc2014summer.commands.angledpickup.RetractAngledPickUp;
 import com.team649.frc2014summer.commands.drivetrain.DriveForwardRotate;
 import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
@@ -59,15 +60,34 @@ public abstract class CommandBase extends Command {
     public static Command retractAngledPickUp() {
         return new RetractAngledPickUp();
     }
-
+    public static Command holdBall() {
+        return new HoldBall();
+    }
     public static Command pickUpBall() {
         CommandGroup pickUpBallSequence = new CommandGroup();
+        if (angledPickUpSubsystem.haveBallInPickUp()) {
+            pickUpBallSequence.addSequential(retractAngledPickUp());
+
+        } else {
+            pickUpBallSequence.addSequential(pickUpAndHoldBall());
+            pickUpBallSequence.addSequential(retractAngledPickUp());
+        }
         
-        pickUpBallSequence.addSequential(deployAngledPickUp());
-        pickUpBallSequence.addSequential(retractAngledPickUp());
         return pickUpBallSequence;
     }
 
+    public static Command pickUpAndHoldBall() {
+        CommandGroup holdBallSequence = new CommandGroup();
+        holdBallSequence.addSequential(deployAngledPickUp());
+        holdBallSequence.addSequential(holdBall());
+        return holdBallSequence;
+    }
+    
+    public static Command purgeBall() {
+        if (angledPickUpSubsystem.haveBallInPickUp()) {
+            
+        }
+    }
     public CommandBase(String name) {
         super(name);
     }

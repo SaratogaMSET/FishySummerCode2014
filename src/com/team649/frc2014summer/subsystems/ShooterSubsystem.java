@@ -69,6 +69,9 @@ public class ShooterSubsystem extends Subsystem implements PIDOutput{
         
     }
     
+    public boolean haveBallInShooter() {
+        return true;
+    }
     
     protected void initDefaultCommand() {
     }

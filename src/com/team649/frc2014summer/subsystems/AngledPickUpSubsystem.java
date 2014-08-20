@@ -6,14 +6,10 @@
 package com.team649.frc2014summer.subsystems;
 
 import com.team649.frc2014summer.RobotMap;
-import com.team649.frc2014summer.pid_control.PIDController649;
-import com.team649.frc2014summer.pid_control.PIDVelocitySource;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDOutput;
+
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -21,15 +17,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  * @author Kabi
  */
-public class AngledPickUpSubsystem extends Subsystem implements PIDVelocitySource, PIDOutput{
+public class AngledPickUpSubsystem extends Subsystem{
 
     private SpeedController motor;
-    private Encoder encoder;
-    private PIDController649 pid;
     private DoubleSolenoid piston;
 
     public static final double PICK_UP_MOTOR_SPEED = -0.4;
     public static final double PURGE_MOTOR_SPEED = 0.4;
+    public static final double HOLD_BALL_MOTOR_SPEED = 0.2;
 
     private static final Value PISTON_DEPLOYED_STATE = DoubleSolenoid.Value.kForward;
     private static final Value PISTON_RETRACTED_STATE = DoubleSolenoid.Value.kReverse;
@@ -69,23 +64,11 @@ public class AngledPickUpSubsystem extends Subsystem implements PIDVelocitySourc
         piston.set(PISTON_RETRACTED_STATE);
     }
 
-    public boolean haveBall() {
+    public boolean haveBallInPickUp() {
         return true;
     }
 
     protected void initDefaultCommand() {
     }
-
-    public double getRate() {
-        return encoder.getRate();
-    }
-    
-     public double pidGet() {
-    }
-     
-    public void pidWrite(double output) {
-        
-    }
-
 
 }

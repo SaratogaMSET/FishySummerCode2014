@@ -23,7 +23,7 @@ public class DeployAngledPickUp extends CommandBase {
     }
 
     protected boolean isFinished() {
-        return angledPickUpSubsystem.haveBall();
+        return angledPickUpSubsystem.haveBallInPickUp();
     }
 
     protected void end() {
