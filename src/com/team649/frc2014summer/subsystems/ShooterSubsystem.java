@@ -12,6 +12,7 @@ import com.team649.frc2014summer.pid_control.PIDController649;
 import com.team649.frc2014summer.pid_control.PIDVelocitySource;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
@@ -28,6 +29,7 @@ public class ShooterSubsystem extends Subsystem implements PIDOutput{
     private PIDController649 pid; 
     private DigitalInput limit1, limit2;
     private Potentiometer pot;
+    private DoubleSolenoid purgePiston;
     
     public static final double MOTOR_SPEED = 1;
     public static final int TIME_TO_FIRE = 0;
@@ -52,6 +54,8 @@ public class ShooterSubsystem extends Subsystem implements PIDOutput{
         pot = new AnalogPotentiometer(RobotMap.SHOOTER.POTENTIOMETER_PORT);
         limit1 = new DigitalInput(RobotMap.SHOOTER.LIMIT_SWITCH_1_PORT);
         limit2 = new DigitalInput(RobotMap.SHOOTER.LIMIT_SWITCH_2_PORT);
+        purgePiston = new DoubleSolenoid(RobotMap.SHOOTER.PURGE_PISTON_FORWARD_CHANNEL, RobotMap.SHOOTER.PURGE_PISTON_REVERSE_CHANNEL);
+        purgePiston.set(DoubleSolenoid.Value.kReverse);
     }
 
    
@@ -73,6 +77,13 @@ public class ShooterSubsystem extends Subsystem implements PIDOutput{
         return true;
     }
     
+    public void firePurgePiston() {
+        purgePiston.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void retractPurgePiston() {
+        purgePiston.set(DoubleSolenoid.Value.kReverse);
+    }
     protected void initDefaultCommand() {
     }
     

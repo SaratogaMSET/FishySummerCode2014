@@ -4,11 +4,14 @@ import com.team649.frc2014summer.OI;
 import com.team649.frc2014summer.RobotMap;
 import com.team649.frc2014summer.commands.angledpickup.DeployAngledPickUp;
 import com.team649.frc2014summer.commands.angledpickup.HoldBall;
+import com.team649.frc2014summer.commands.angledpickup.PurgeBallFromPickUp;
 import com.team649.frc2014summer.commands.angledpickup.RetractAngledPickUp;
 import com.team649.frc2014summer.commands.drivetrain.DriveForwardRotate;
+import com.team649.frc2014summer.commands.shooter.PurgeBallFromShooter;
 import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
 import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
 import com.team649.frc2014summer.subsystems.HingedPickUpSubsystem;
+import com.team649.frc2014summer.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -27,6 +30,7 @@ public abstract class CommandBase extends Command {
     public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     public static AngledPickUpSubsystem angledPickUpSubsystem = new AngledPickUpSubsystem();
     public static HingedPickUpSubsystem hingedPickUpSubsystem = new HingedPickUpSubsystem();
+    public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     public static Compressor compressor;
 
     public static void init() {
@@ -60,9 +64,19 @@ public abstract class CommandBase extends Command {
     public static Command retractAngledPickUp() {
         return new RetractAngledPickUp();
     }
+
     public static Command holdBall() {
         return new HoldBall();
     }
+
+    public static Command purgeBallFromPickUp() {
+        return new PurgeBallFromPickUp();
+    }
+
+    public static Command purgeBallFromShooter() {
+        return new PurgeBallFromShooter();
+    }
+
     public static Command pickUpBall() {
         CommandGroup pickUpBallSequence = new CommandGroup();
         if (angledPickUpSubsystem.haveBallInPickUp()) {
@@ -72,7 +86,7 @@ public abstract class CommandBase extends Command {
             pickUpBallSequence.addSequential(pickUpAndHoldBall());
             pickUpBallSequence.addSequential(retractAngledPickUp());
         }
-        
+
         return pickUpBallSequence;
     }
 
@@ -82,12 +96,16 @@ public abstract class CommandBase extends Command {
         holdBallSequence.addSequential(holdBall());
         return holdBallSequence;
     }
-    
+
     public static Command purgeBall() {
-        if (angledPickUpSubsystem.haveBallInPickUp()) {
-            
+        CommandGroup purgeBallSequence = new CommandGroup();
+        purgeBallSequence.addSequential(purgeBallFromPickUp());
+        if (!angledPickUpSubsystem.haveBallInPickUp()) {
+            purgeBallSequence.addSequential(purgeBallFromShooter());
         }
+        return purgeBallSequence;
     }
+
     public CommandBase(String name) {
         super(name);
     }

@@ -60,6 +60,8 @@ public class RobotMap {
         public static final int POTENTIOMETER_PORT = 1;
         public static final int LIMIT_SWITCH_1_PORT = 3;
         public static final int LIMIT_SWITCH_2_PORT = 4;
+        public static final int PURGE_PISTON_FORWARD_CHANNEL = 11;
+        public static final int PURGE_PISTON_REVERSE_CHANNEL = 12;
 
     }
 }

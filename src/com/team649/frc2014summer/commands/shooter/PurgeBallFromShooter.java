@@ -3,38 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.team649.frc2014summer.commands.angledpickup;
+package com.team649.frc2014summer.commands.shooter;
 
 import com.team649.frc2014summer.commands.CommandBase;
-import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
  * @author Kabi
  */
-public class PurgeBall extends CommandBase {
+public class PurgeBallFromShooter extends CommandBase {
 
     Timer time;
 
     protected void initialize() {
         time = new Timer();
+        shooterSubsystem.firePurgePiston();
     }
 
     protected void execute() {
-        angledPickUpSubsystem.runMotor(AngledPickUpSubsystem.PURGE_MOTOR_SPEED);
     }
 
     protected boolean isFinished() {
-        if (time.get() >= 100 && !angledPickUpSubsystem.haveBallInPickUp()) {
-            return true;
-        }
-        return false;
-
+        return (time.get() >= 300);
     }
 
     protected void end() {
-        angledPickUpSubsystem.stopMotor();
+        shooterSubsystem.retractPurgePiston();
     }
 
     protected void interrupted() {
