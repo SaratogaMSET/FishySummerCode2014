@@ -32,7 +32,7 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
 
     public static final class EncoderBasedDriving {
 
-        public static double ENCODER_DISTANCE_PER_PULSE = (4 * Math.PI / 128) * (34/40);
+        public static double ENCODER_DISTANCE_PER_PULSE = (4 * Math.PI / 128);
         public static final double MIN_MOTOR_POWER = 0.25;
         public static double Kp = 0;
         public static double Ki = 0;
@@ -194,11 +194,8 @@ public class DriveTrainSubsystem extends Subsystem implements PIDVelocitySource,
     public void shiftDriveGear(boolean lowGear) {
         if (lowGear) {
             shifterSolenoid.set(DoubleSolenoid.Value.kForward);
-            DriveTrainSubsystem.EncoderBasedDriving.ENCODER_DISTANCE_PER_PULSE = (4 * Math.PI / 128) * (14/60);
         } else {
             shifterSolenoid.set(DoubleSolenoid.Value.kReverse);
-            DriveTrainSubsystem.EncoderBasedDriving.ENCODER_DISTANCE_PER_PULSE = (4 * Math.PI / 128) * (34/40);
-
         }
 
     }

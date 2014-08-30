@@ -101,11 +101,12 @@ public abstract class CommandBase extends Command {
         CommandGroup purgeBallSequence = new CommandGroup();
         purgeBallSequence.addSequential(purgeBallFromPickUp());
         if (!angledPickUpSubsystem.haveBallInPickUp()) {
-            purgeBallSequence.addSequential(purgeBallFromShooter());
+            purgeBallSequence.addParallel(purgeBallFromShooter());
         }
         return purgeBallSequence;
     }
 
+    
     public CommandBase(String name) {
         super(name);
     }

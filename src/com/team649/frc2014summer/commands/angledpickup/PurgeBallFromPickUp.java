@@ -26,7 +26,7 @@ public class PurgeBallFromPickUp extends CommandBase {
     }
 
     protected boolean isFinished() {
-        if(time.get() >= 100 && !angledPickUpSubsystem.haveBallInPickUp()) {
+        if(time.get() >= 3000 && !angledPickUpSubsystem.haveBallInPickUp()) {
             return true;
         }
         return false;

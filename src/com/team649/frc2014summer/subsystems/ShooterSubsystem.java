@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.team649.frc2014summer.subsystems;
 
 import com.team649.frc2014summer.Display;
@@ -13,6 +12,7 @@ import com.team649.frc2014summer.pid_control.PIDVelocitySource;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
@@ -23,68 +23,103 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  *
  * @author Kabi
  */
-public class ShooterSubsystem extends Subsystem implements PIDOutput{
+public class ShooterSubsystem extends Subsystem implements PIDVelocitySource, PIDOutput {
+
     private SpeedController winchMotor1;
     private SpeedController winchMotor2;
-    private PIDController649 pid; 
+    private PIDController649 pid;
     private DigitalInput limit1, limit2;
-    private Potentiometer pot;
+    private Encoder encoder;
     private DoubleSolenoid purgePiston;
-    
+
     public static final double MOTOR_SPEED = 1;
     public static final int TIME_TO_FIRE = 0;
     public static final int TIME_TO_COIL = 0;
     private static final double POT_MAX = 0;
-    
+    public static final double ChargedPulses ;
+
     public static class PotentiometerBasedPID {
-        
+
         public static final double MIN_MOTOR_POWER = 0.25;
         public static double Kp = 0;
         public static double Ki = 0;
         public static double Kd = 0;
         public static double MAX_MOTOR_POWER = 0;
-        
+
     }
-    
-     public ShooterSubsystem() {
+
+    public ShooterSubsystem() {
         winchMotor1 = new Victor(RobotMap.SHOOTER.MOTOR_PORT_1);
         winchMotor2 = new Victor(RobotMap.SHOOTER.MOTOR_PORT_2);
-        pid = new PIDController649(PotentiometerBasedPID.Kp, PotentiometerBasedPID.Kd, PotentiometerBasedPID.Kd, pot, this);
+        pid = new PIDController649(PotentiometerBasedPID.Kp, PotentiometerBasedPID.Kd, PotentiometerBasedPID.Kd, encoder, this);
         pid.setOutputRange(PotentiometerBasedPID.MIN_MOTOR_POWER, PotentiometerBasedPID.MAX_MOTOR_POWER);
-        pot = new AnalogPotentiometer(RobotMap.SHOOTER.POTENTIOMETER_PORT);
+        encoder = new Encoder(RobotMap.SHOOTER.ENCODER_SOURCE_A, RobotMap.SHOOTER.ENCODER_SOURCE_B);
         limit1 = new DigitalInput(RobotMap.SHOOTER.LIMIT_SWITCH_1_PORT);
-        limit2 = new DigitalInput(RobotMap.SHOOTER.LIMIT_SWITCH_2_PORT);
+
         purgePiston = new DoubleSolenoid(RobotMap.SHOOTER.PURGE_PISTON_FORWARD_CHANNEL, RobotMap.SHOOTER.PURGE_PISTON_REVERSE_CHANNEL);
         purgePiston.set(DoubleSolenoid.Value.kReverse);
     }
 
-   
-    public void pidWrite(double output) {
-        Display.println(3, "" + output);
+    public void setPower(double motorPower) {
+        winchMotor1.set(motorPower);
     }
-   
-    
-    public void reloadShooter() {
-        winchMotor1.set(MOTOR_SPEED);
-        winchMotor2.set(MOTOR_SPEED);
+
+    public void shoot() {
+
     }
-    
-    public void shoot(){
-        
-    }
-    
+
     public boolean haveBallInShooter() {
         return true;
     }
-    
+
     public void firePurgePiston() {
         purgePiston.set(DoubleSolenoid.Value.kForward);
     }
-    
+
     public void retractPurgePiston() {
         purgePiston.set(DoubleSolenoid.Value.kReverse);
     }
+
+    public PIDController649 getShooterPID() {
+        return pid;
+    }
+    //Get Info from encoder
+    public double pidGet() {
+        return getDistance();
+    }
+
+    public double getRate() {
+        return getVelocity();
+    }
+
+    private double getVelocity() {
+        return encoder.getRate();
+    }
+
+    public double getDistance() {
+        return encoder.getDistance();
+    }
+
+    //Control Encoder
+    public void startEncoder() {
+        encoder.start();
+    }
+
+    public void resetEncoders() {
+        encoder.reset();
+    }
+
+    public void printEncoders() {
+        Display.queue("Dis " + encoder.getDistance());
+        Display.queue("Vel " + encoder.getRate());
+
+    }
+
+    public void pidWrite(double output) {
+        Display.println(3, "" + output);
+    }
+
     protected void initDefaultCommand() {
     }
-    
+
 }
