@@ -7,6 +7,7 @@ package com.team649.frc2014summer.commands.shooter;
 
 import com.team649.frc2014summer.commands.CommandBase;
 import com.team649.frc2014summer.pid_control.PIDController649;
+import com.team649.frc2014summer.subsystems.WinchSubsystem;
 
 /**
  *
@@ -15,20 +16,29 @@ import com.team649.frc2014summer.pid_control.PIDController649;
 public class ChargeCatapult extends CommandBase {
 
     private final PIDController649 shooterPID;
+    private long startTime;
 
     public ChargeCatapult() {
         shooterPID = shooterSubsystem.getShooterPID();
-        
+
     }
+
     protected void initialize() {
-        shooterPID.enable();
-        shooterPID.setSetpoint(shooterSubsystem.ChargedPulses);
+        shooterPID.setSetpoint(WinchSubsystem.CLICKS_PAST_LIMIT);
+        startTime = System.currentTimeMillis();
+        shooterPID.setPID(WinchSubsystem.EncoderBasedPID.Kp, WinchSubsystem.EncoderBasedPID.Ki, WinchSubsystem.EncoderBasedPID.Kd);
+        
     }
 
     protected void execute() {
+        if (shooterSubsystem.isShooterCharged()) {
+            shooterSubsystem.setPower(1);
+        }
+        shooterPID.enable();
     }
 
     protected boolean isFinished() {
+        return (shooterPID.onTarget());
     }
 
     protected void end() {

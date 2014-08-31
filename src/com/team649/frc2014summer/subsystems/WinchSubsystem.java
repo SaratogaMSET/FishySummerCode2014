@@ -23,36 +23,37 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  *
  * @author Kabi
  */
-public class ShooterSubsystem extends Subsystem implements PIDVelocitySource, PIDOutput {
+public class WinchSubsystem extends Subsystem implements PIDVelocitySource, PIDOutput {
 
     private SpeedController winchMotor1;
     private SpeedController winchMotor2;
     private PIDController649 pid;
-    private DigitalInput limit1, limit2;
+    private DigitalInput limit1;
     private Encoder encoder;
     private DoubleSolenoid purgePiston;
 
     public static final double MOTOR_SPEED = 1;
     public static final int TIME_TO_FIRE = 0;
     public static final int TIME_TO_COIL = 0;
-    private static final double POT_MAX = 0;
-    public static final double ChargedPulses ;
+    public static final double CLICKS_PAST_LIMIT = 30;
 
-    public static class PotentiometerBasedPID {
+    public static class EncoderBasedPID {
 
         public static final double MIN_MOTOR_POWER = 0.25;
         public static double Kp = 0;
         public static double Ki = 0;
         public static double Kd = 0;
         public static double MAX_MOTOR_POWER = 0;
+        public static final double ABSOLUTE_TOLERANCE = 10;
 
     }
 
-    public ShooterSubsystem() {
+    public WinchSubsystem() {
         winchMotor1 = new Victor(RobotMap.SHOOTER.MOTOR_PORT_1);
         winchMotor2 = new Victor(RobotMap.SHOOTER.MOTOR_PORT_2);
-        pid = new PIDController649(PotentiometerBasedPID.Kp, PotentiometerBasedPID.Kd, PotentiometerBasedPID.Kd, encoder, this);
-        pid.setOutputRange(PotentiometerBasedPID.MIN_MOTOR_POWER, PotentiometerBasedPID.MAX_MOTOR_POWER);
+        pid = new PIDController649(EncoderBasedPID.Kp, EncoderBasedPID.Kd, EncoderBasedPID.Kd, encoder, this);
+        pid.setOutputRange(EncoderBasedPID.MIN_MOTOR_POWER, EncoderBasedPID.MAX_MOTOR_POWER);
+        pid.setAbsoluteTolerance(EncoderBasedPID.ABSOLUTE_TOLERANCE);
         encoder = new Encoder(RobotMap.SHOOTER.ENCODER_SOURCE_A, RobotMap.SHOOTER.ENCODER_SOURCE_B);
         limit1 = new DigitalInput(RobotMap.SHOOTER.LIMIT_SWITCH_1_PORT);
 
@@ -72,6 +73,9 @@ public class ShooterSubsystem extends Subsystem implements PIDVelocitySource, PI
         return true;
     }
 
+    public boolean isShooterCharged() {
+        return true;
+    }
     public void firePurgePiston() {
         purgePiston.set(DoubleSolenoid.Value.kForward);
     }

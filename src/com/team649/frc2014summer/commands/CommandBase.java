@@ -11,7 +11,7 @@ import com.team649.frc2014summer.commands.shooter.PurgeBallFromShooter;
 import com.team649.frc2014summer.subsystems.AngledPickUpSubsystem;
 import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
 import com.team649.frc2014summer.subsystems.HingedPickUpSubsystem;
-import com.team649.frc2014summer.subsystems.ShooterSubsystem;
+import com.team649.frc2014summer.subsystems.WinchSubsystem;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -30,7 +30,7 @@ public abstract class CommandBase extends Command {
     public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     public static AngledPickUpSubsystem angledPickUpSubsystem = new AngledPickUpSubsystem();
     public static HingedPickUpSubsystem hingedPickUpSubsystem = new HingedPickUpSubsystem();
-    public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    public static WinchSubsystem shooterSubsystem = new WinchSubsystem();
     public static Compressor compressor;
 
     public static void init() {
