@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.team649.frc2014summer;
+package com.team649.frc2014;
 
 import com.sun.squawk.microedition.io.FileConnection;
 import com.sun.squawk.util.StringTokenizer;
