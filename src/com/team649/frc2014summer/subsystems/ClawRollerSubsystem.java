@@ -42,6 +42,5 @@ public class ClawRollerSubsystem extends Subsystem {
     
     public boolean haveBall() {
         return(lim1.get() || lim2.get()); 
-
     }
 }

@@ -27,7 +27,7 @@ public class RunRollers extends CommandBase {
     }
 
     protected boolean isFinished() {
-        return true;
+        return (clawRollerSubsystem.haveBall() && !CommandBase.oi.shooter.isPickupButtonPressed());
     }
 
     protected void end() {

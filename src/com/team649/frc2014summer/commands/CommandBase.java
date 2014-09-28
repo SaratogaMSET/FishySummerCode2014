@@ -108,7 +108,6 @@ public abstract class CommandBase extends Command {
         repositionAndPickup.addSequential(new WaitCommand(500));
 
         repositionAndPickup.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED));
-        repositionAndPickup.addParallel(new RunForks(ClawForksSubsystem.FORK_RUN_SPEED));
         repositionAndPickup.addSequential(new DriveSetDistanceWithPIDCommand(-driveDistance + 28, 0.33));
 
         return repositionAndPickup;
@@ -117,10 +116,10 @@ public abstract class CommandBase extends Command {
     private static CommandGroup realignBall() {
         CommandGroup realign = new CommandGroup();
         realign.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_REALIGN_SPEED));
-        realign.addParallel(new RunForks(ClawForksSubsystem.FORK_RUN_SPEED) );
+        realign.addParallel(new RunForks(ClawForksSubsystem.FORK_RUN_SPEED));
         realign.addSequential(new WaitCommand(4000));
         realign.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED));
-        realign.addParallel(new RunForks(ClawForksSubsystem.FORK_RUN_SPEED));
+        realign.addParallel(new RunForks(ClawForksSubsystem.FORK_OFF_SPEED));
         return realign;
     }
 
@@ -205,7 +204,14 @@ public abstract class CommandBase extends Command {
     }
 
     public static Command runRollers(double choosenSpeed) {
-        return new RunRollers(choosenSpeed);
+        CommandGroup PickUp = new CommandGroup();
+        PickUp.addSequential(new RunRollers(choosenSpeed));
+        if (choosenSpeed == ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED) {
+            PickUp.addParallel(new RunForks(ClawForksSubsystem.FORK_RUN_SPEED));
+        } else {
+            PickUp.addParallel(new RunForks(ClawForksSubsystem.FORK_OFF_SPEED));
+        };
+        return PickUp;
     }
 
     public static Command manualDriveClaw(double power) {
