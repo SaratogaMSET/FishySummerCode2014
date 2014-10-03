@@ -5,6 +5,7 @@
  */
 package com.team649.frc2014summer.subsystems;
 
+import com.team649.frc2014summer.MaxbotixUltrasonic;
 import com.team649.frc2014summer.RobotMap;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -18,8 +19,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ClawRollerSubsystem extends Subsystem {
 
     private final SpeedController motor;
-    private final DigitalInput lim1;
-    private final DigitalInput lim2;
+    private final MaxbotixUltrasonic ultra;
 
     public static final double ROLLER_SPIN_SHOOT_SPEED = 1;
     public static final double ROLLER_SPIN_INTAKE_SPEED = -.4;
@@ -27,10 +27,16 @@ public class ClawRollerSubsystem extends Subsystem {
     public static final double ROLLER_SPIN_OFF_SPEED = 0;
     public static final double ROLLER_SPIN_REALIGN_SPEED = -.2;
 
+    //UltraSonicVals
+    public static final boolean returnWithUnits = true;
+    public static final double voltageMin = 0;
+    public static final double voltageMax = 1;
+    public static final double distanceMin = 0;
+    public static final double distanceMax = 10;
+
     public ClawRollerSubsystem() {
         motor = new Victor(RobotMap.CLAW_ROLLER.MOTOR);
-        lim1 = new DigitalInput(RobotMap.CLAW_ROLLER.LIMIT_SWITCH1_INPUT);
-        lim2 = new DigitalInput(RobotMap.CLAW_ROLLER.LIMIT_SWITCH2_INPUT);
+        ultra = new MaxbotixUltrasonic(RobotMap.CLAW_ROLLER.ULTRASONICCHANNEL, returnWithUnits, voltageMin, voltageMax, distanceMin, distanceMax);
     }
 
     protected void initDefaultCommand() {
@@ -39,8 +45,11 @@ public class ClawRollerSubsystem extends Subsystem {
     public void runMotor(double speed) {
         motor.set(speed);
     }
-    
+
     public boolean haveBall() {
-        return(lim1.get() || lim2.get()); 
+        if (ultra.GetRangeInInches() <= 5) {
+            return true;
+        }
+        return false;
     }
 }

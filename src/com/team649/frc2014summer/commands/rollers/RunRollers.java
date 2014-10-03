@@ -14,9 +14,11 @@ import com.team649.frc2014summer.commands.CommandBase;
 public class RunRollers extends CommandBase {
 
     private final double speed;
+    private boolean useHaveBall;
 
-    public RunRollers(double choosenSpeed) {
+    public RunRollers(double choosenSpeed, boolean check) {
         speed = choosenSpeed;
+        useHaveBall = check;
     }
 
     protected void initialize() {
@@ -27,7 +29,10 @@ public class RunRollers extends CommandBase {
     }
 
     protected boolean isFinished() {
-        return (clawRollerSubsystem.haveBall() && !CommandBase.oi.shooter.isPickupButtonPressed());
+        if(useHaveBall) {
+            return CommandBase.clawRollerSubsystem.haveBall();
+        }
+        return true;
     }
 
     protected void end() {

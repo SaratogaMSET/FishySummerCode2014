@@ -26,20 +26,18 @@ public class ClawWinchSubsystem extends Subsystem {
 
     private DoubleSolenoid engageClaw;
 
-    private static DigitalInput limitSwitch1;
-    private static DigitalInput limitSwitch2;
-    private static DigitalInput limitSwitch3;
+    private static DigitalInput lim1;
+    private static DigitalInput lim2;
 
     public ClawWinchSubsystem() {
         motor = new Victor(RobotMap.CLAW_WINCH.MOTOR);
-        limitSwitch1 = new DigitalInput(RobotMap.CLAW_WINCH.LIMIT_SWITCH1_INPUT);
-        limitSwitch2 = new DigitalInput(RobotMap.CLAW_WINCH.LIMIT_SWITCH2_INPUT);
-        limitSwitch3 = new DigitalInput(RobotMap.CLAW_WINCH.LIMIT_SWITCH3_INPUT);
+        lim1 = new DigitalInput(RobotMap.CLAW_WINCH.LIMIT_SWITCH1_INPUT);
+        lim2 = new DigitalInput(RobotMap.CLAW_WINCH.LIMIT_SWITCH2_INPUT);
         engageClaw = new DoubleSolenoid(RobotMap.CLAW_WINCH.ENGAGED_SOLENOID_CHANNEL, RobotMap.CLAW_WINCH.LOOSE_SOLENOID_CHANNEL);
     }
 
     public void runMotor() {
-        motor.set(MOTOR_SPEED);
+        motor.set(-MOTOR_SPEED);
     }
 
     public void stopMotor() {
@@ -47,20 +45,7 @@ public class ClawWinchSubsystem extends Subsystem {
     }
 
     public boolean isSwitchPressed() {
-        int voting = 0;
-        if (limitSwitch1.get()) {
-            voting++;
-        }
-        if (limitSwitch2.get()) {
-            voting++;
-        }
-        if (limitSwitch3.get()) {
-            voting++;
-        }
-        if (voting > 2) {
-            return true;
-        }
-        return false;
+        return (lim1.get() || lim2.get());
     }
 
     public void setSolenoid(boolean state) {

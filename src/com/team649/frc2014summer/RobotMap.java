@@ -13,6 +13,7 @@ public class RobotMap {
     public static final int JOYSTICK_SHOOTER = 3;
     public static final int PRESSURE_SWITCH_CHANNEL = 1;
     public static final int COMPRESSOR_RELAY_CHANNEL = 1;
+  //  public static final int JOYSTICK_SHOOTER_MANUAL = 4;
 
     public static class DRIVE_TRAIN {
 
@@ -25,15 +26,15 @@ public class RobotMap {
     public static class CLAW_PIVOT {
 
         public static final int POTENTIOMETER = 1;
-        public static final int MOTOR = 6;
+        public static final int MOTOR1 = 6;
+        public static final int MOTOR2 = 8;
     }
 
     public static class CLAW_WINCH {
         
         public static final int MOTOR = 5;
-        public static final int LIMIT_SWITCH1_INPUT = 9;
-        public static final int LIMIT_SWITCH2_INPUT = 10;
-        public static final int LIMIT_SWITCH3_INPUT = 11;
+        public static final int LIMIT_SWITCH1_INPUT = 10;
+        public static final int LIMIT_SWITCH2_INPUT = 12;
         public static final int ENGAGED_SOLENOID_CHANNEL = 3;
         public static final int LOOSE_SOLENOID_CHANNEL = 4;
         
@@ -48,14 +49,13 @@ public class RobotMap {
     public static class CLAW_ROLLER {
 
         public static int MOTOR = 7;
-        public static final int LIMIT_SWITCH1_INPUT = 12;
-        public static final int LIMIT_SWITCH2_INPUT = 13;
+        public static final int ULTRASONICCHANNEL = 12;
     }
 
     public static class CLAW_FORKS {
 
-        public static final int LEFT_MOTOR = 8;
-        public static final int RIGHT_MOTOR = 9;
+        public static final int LEFT_MOTOR = 9;
+        public static final int RIGHT_MOTOR = 10;
     }
 
 }

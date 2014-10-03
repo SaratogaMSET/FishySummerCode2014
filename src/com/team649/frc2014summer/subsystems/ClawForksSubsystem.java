@@ -20,7 +20,7 @@ public class ClawForksSubsystem extends Subsystem{
     private final SpeedController motorLeft;
     private final SpeedController motorRight;
     
-    public static final double FORK_RUN_SPEED = -.4;
+    public static final double FORK_RUN_SPEED = .3;
     public static final double FORK_OFF_SPEED = 0;
     
     public ClawForksSubsystem() {
@@ -29,7 +29,7 @@ public class ClawForksSubsystem extends Subsystem{
     }
     public void runForks(double speed) {
         motorLeft.set(speed);
-        motorRight.set(-speed);
+        motorRight.set(speed);
     }
     protected void initDefaultCommand() {
     }

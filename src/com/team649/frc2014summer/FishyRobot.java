@@ -14,6 +14,7 @@ import com.team649.frc2014summer.commands.HotVisionWaitCommand;
 import com.team649.frc2014summer.commands.pivot.SetClawPosition;
 import com.team649.frc2014summer.commands.winch.SetClawWinchSolenoid;
 import com.team649.frc2014summer.subsystems.ClawFingerSubsystem;
+import com.team649.frc2014summer.subsystems.ClawForksSubsystem;
 import com.team649.frc2014summer.subsystems.ClawPivotSubsystem;
 import com.team649.frc2014summer.subsystems.ClawRollerSubsystem;
 import com.team649.frc2014summer.subsystems.DriveTrainSubsystem;
@@ -155,6 +156,54 @@ public class FishyRobot extends IterativeRobot {
             getWatchdog().feed();
             Display.clear();
             Scheduler.getInstance().run();
+            //
+            //
+            //
+            // MANUAL
+            //
+            //
+            //
+/*
+            if (CommandBase.oi.manual.isFingerButtonPressed()) {
+                //fingerSolenoid.set(fingerState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+                if (CommandBase.clawFingerSubsystem.state == ClawFingerSubsystem.DOWN) {
+                    CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.UP);
+                } else {
+                    CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.DOWN);
+                }
+            }
+
+            if (CommandBase.oi.manual.isManualWinchButtonPressed()) {
+                CommandBase.clawWinchSubsystem.runMotor();
+            } else {
+                CommandBase.clawWinchSubsystem.stopMotor();
+            }
+
+            if (CommandBase.oi.manual.isShooterSafetyButtonPressed() && CommandBase.oi.manual.isShooterTriggerButtonPressed()) {
+                CommandBase.clawWinchSubsystem.setSolenoid(false);
+            } else {
+                CommandBase.clawWinchSubsystem.setSolenoid(true);
+            }
+
+            if (CommandBase.oi.manual.getRollerButtonsPressed() == -1) {
+                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED);
+                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_RUN_SPEED);
+            } else if (CommandBase.oi.manual.getRollerButtonsPressed() == 1) {
+                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_PURGE_SPEED);
+                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
+            } else {
+                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED);
+                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
+            }
+            CommandBase.clawPivotSubsystem.setPower(CommandBase.oi.manual.getManualShooterJoystickY());
+            
+            */
+            //
+            //
+            //
+            //
+            //
+            //
             //ClawRollerSubsystem.MOTOR_SPEED = SmartDashboard.getNumber("rollerSpeed");
             CommandBase.driveForwardRotate(CommandBase.oi.driver.getDriveForward(), CommandBase.oi.driver.getDriveRotation()).start();
             if (CommandBase.oi.driver.isDrivetrainLowGearButtonPressed()) {
@@ -190,11 +239,11 @@ public class FishyRobot extends IterativeRobot {
 
             if (shootCommand == null || !shootCommand.isRunning()) {
                 if (CommandBase.oi.shooter.isPurgeButtonPressed()) {
-                    CommandBase.runRollers(ClawRollerSubsystem.ROLLER_SPIN_PURGE_SPEED).start();
+                    CommandBase.runRollers(ClawRollerSubsystem.ROLLER_SPIN_PURGE_SPEED, false).start();
                 } else if (CommandBase.oi.shooter.isPickupButtonPressed()) {
-                    CommandBase.runRollers(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED).start();
+                    CommandBase.runRollers(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED, false).start();
                 } else {
-                    CommandBase.runRollers(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED).start();
+                    CommandBase.runRollers(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED, false).start();
                 }
             }
             if (CommandBase.oi.shooter.isWinchWindButtonPressed() && (coilClawWinchCommand == null || !coilClawWinchCommand.isRunning())) {

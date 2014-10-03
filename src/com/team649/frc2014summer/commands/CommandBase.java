@@ -13,7 +13,7 @@ import com.team649.frc2014summer.commands.rollers.RunRollers;
 import com.team649.frc2014summer.commands.winch.AutoCoilClawWinch;
 import com.team649.frc2014summer.commands.winch.ManualCoilClawWinch;
 import com.team649.frc2014summer.commands.winch.SetClawWinchSolenoid;
-import com.team649.frc2014summer.subsystems.CameraSubsystem;
+//import com.team649.frc2014summer.subsystems.CameraSubsystem;
 import com.team649.frc2014summer.subsystems.ClawFingerSubsystem;
 import com.team649.frc2014summer.subsystems.ClawForksSubsystem;
 import com.team649.frc2014summer.subsystems.ClawPivotSubsystem;
@@ -38,7 +38,7 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-    public static CameraSubsystem cameraSubsystem = new CameraSubsystem();
+   // public static CameraSubsystem cameraSubsystem = new CameraSubsystem();
     public static ClawPivotSubsystem clawPivotSubsystem = new ClawPivotSubsystem();
     public static ClawWinchSubsystem clawWinchSubsystem = new ClawWinchSubsystem();
     public static ClawFingerSubsystem clawFingerSubsystem = new ClawFingerSubsystem();
@@ -78,7 +78,7 @@ public abstract class CommandBase extends Command {
     }
 
     public static Command shootHotGoalShortDriveAutonomous() {
-        CommandGroup driveAndCheckGoal = driveAndPrepareToShoot(true, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT, 0, 2.5);
+        CommandGroup driveAndCheckGoal = driveAndPrepareToShoot(false, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT, 0, 2.5);
         CommandGroup mainAutonomousSequence = new CommandGroup("mainAutoSeq");
         //drive and check goal. When both are done (checking goal and driving), shoot
         mainAutonomousSequence.addSequential(setFingerPosition(ClawFingerSubsystem.DOWN));
@@ -107,7 +107,8 @@ public abstract class CommandBase extends Command {
         repositionAndPickup.addParallel(new SetClawPosition(ClawPivotSubsystem.PICKUP));
         repositionAndPickup.addSequential(new WaitCommand(500));
 
-        repositionAndPickup.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED));
+        repositionAndPickup.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED, true));
+       
         repositionAndPickup.addSequential(new DriveSetDistanceWithPIDCommand(-driveDistance + 28, 0.33));
 
         return repositionAndPickup;
@@ -115,10 +116,10 @@ public abstract class CommandBase extends Command {
 
     private static CommandGroup realignBall() {
         CommandGroup realign = new CommandGroup();
-        realign.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_REALIGN_SPEED));
+        realign.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_REALIGN_SPEED, false));
         realign.addParallel(new RunForks(ClawForksSubsystem.FORK_RUN_SPEED));
         realign.addSequential(new WaitCommand(4000));
-        realign.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED));
+        realign.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED, false));
         realign.addParallel(new RunForks(ClawForksSubsystem.FORK_OFF_SPEED));
         return realign;
     }
@@ -182,12 +183,12 @@ public abstract class CommandBase extends Command {
     public static Command shootBall(boolean auto) {
         CommandGroup fireSequence = new CommandGroup();
         fireSequence.addParallel(setFingerPosition(ClawFingerSubsystem.UP));
-        fireSequence.addParallel(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_SHOOT_SPEED));
+        fireSequence.addParallel(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_SHOOT_SPEED, false));
         fireSequence.addSequential(new SetClawWinchSolenoid(false));
         fireSequence.addSequential(new WaitCommand(ClawWinchSubsystem.TIME_TO_FIRE));
         //then recoils
         fireSequence.addSequential(setFingerPosition(ClawFingerSubsystem.DOWN));
-        fireSequence.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED));
+        fireSequence.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED, false));
         if (auto) {
             fireSequence.addSequential(autoCoilClawWinch(), ClawWinchSubsystem.MAX_COIL_TIME);
         }
@@ -203,9 +204,9 @@ public abstract class CommandBase extends Command {
         return new SetFingerPosition(state);
     }
 
-    public static Command runRollers(double choosenSpeed) {
+    public static Command runRollers(double choosenSpeed, boolean check) {
         CommandGroup PickUp = new CommandGroup();
-        PickUp.addSequential(new RunRollers(choosenSpeed));
+        PickUp.addSequential(new RunRollers(choosenSpeed, check));
         if (choosenSpeed == ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED) {
             PickUp.addParallel(new RunForks(ClawForksSubsystem.FORK_RUN_SPEED));
         } else {

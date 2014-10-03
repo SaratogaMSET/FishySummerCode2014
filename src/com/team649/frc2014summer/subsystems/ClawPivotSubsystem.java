@@ -20,9 +20,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ClawPivotSubsystem extends Subsystem implements PIDOutput {
 
-    public static final double kP = -1;
-    public static final double kI = -.1;
-    public static final double kD = 0.0;
+    public static final double kP = -.32;
+    public static final double kI = -.052;
+    public static final double kD = -0.059;
     public static final double MAX_BACKWARD_SPEED = .4;
     public static final double MAX_FORWARD_SPEED = -.6;
     public static final double FULL_BACKWARD_POSITION = .9;
@@ -37,12 +37,12 @@ public class ClawPivotSubsystem extends Subsystem implements PIDOutput {
     public static final String[] CLAW_POT_NAMES = new String[5];
 
     static {
-        CLAW_POT_STATES[PICKUP] = 4.9;
+        CLAW_POT_STATES[PICKUP] = 4.7;
         //42.5 degrees
-        CLAW_POT_STATES[FORWARD_SHOOT] = 3.26;
-        CLAW_POT_STATES[BACKWARD_SHOOT] = 1.67;
-        CLAW_POT_STATES[STORE] = 2.4;
-        CLAW_POT_STATES[GOAL_SHOOT] = 1.83;
+        CLAW_POT_STATES[FORWARD_SHOOT] = 3.06;
+        CLAW_POT_STATES[BACKWARD_SHOOT] = 1.47;
+        CLAW_POT_STATES[STORE] = 2.2;
+        CLAW_POT_STATES[GOAL_SHOOT] = 1.63;
         CLAW_POT_NAMES[FORWARD_SHOOT] = "FWD SHOOT";
         CLAW_POT_NAMES[BACKWARD_SHOOT] = "BCK SHOOT";
         CLAW_POT_NAMES[PICKUP] = "PICKUP";
@@ -50,13 +50,15 @@ public class ClawPivotSubsystem extends Subsystem implements PIDOutput {
         CLAW_POT_NAMES[STORE] = "STORE";
     }
     private final PIDController649 clawPID;
-    private final SpeedController motor;
+    private final SpeedController motor1;
+    private final SpeedController motor2;
     private final AnalogPotentiometer potentiometer;
 
     // Initialize your subsystem here
     public ClawPivotSubsystem() {
         super("ClawSubsystem");
-        motor = new Victor(RobotMap.CLAW_PIVOT.MOTOR);
+        motor1 = new Victor(RobotMap.CLAW_PIVOT.MOTOR1);
+        motor2 = new Victor(RobotMap.CLAW_PIVOT.MOTOR2);
         potentiometer = new AnalogPotentiometer(RobotMap.CLAW_PIVOT.POTENTIOMETER);
         clawPID = new PIDController649(kP, kI, kD, potentiometer, this);
         clawPID.setAbsoluteTolerance(0.01);
@@ -74,7 +76,8 @@ public class ClawPivotSubsystem extends Subsystem implements PIDOutput {
         if (power < 0 && getPotValue() >= FULL_FORWARD_POSITION || power > 0 && getPotValue() < FULL_BACKWARD_POSITION || Math.abs(power) < .1) {
             power = 0;
         }
-        motor.set(power);
+        motor1.set(power);
+        motor2.set(power);
 
     }
 

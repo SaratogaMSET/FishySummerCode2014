@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Kabir/Documents/NetBeansProjects/FishySummerCode2014/src/com/team649/frc2014summer/commands/rollers/RunRollers.java</file>
+            <file>file:/C:/Users/Kabir/Documents/NetBeansProjects/FishySummerCode2014/src/com/team649/frc2014summer/RobotMap.java</file>
+            <file>file:/C:/Users/Kabir/Documents/NetBeansProjects/FishySummerCode2014/src/com/team649/frc2014summer/subsystems/ClawPivotSubsystem.java</file>
+            <file>file:/C:/Users/Kabir/Documents/NetBeansProjects/FishySummerCode2014/src/com/team649/frc2014summer/commands/CommandBase.java</file>
+            <file>file:/C:/Users/Kabir/Documents/NetBeansProjects/FishySummerCode2014/src/com/team649/frc2014summer/FishyRobot.java</file>
+            <file>file:/C:/Users/Kabir/Documents/NetBeansProjects/FishySummerCode2014/src/com/team649/frc2014summer/subsystems/ClawRollerSubsystem.java</file>
+        </group>
     </open-files>
 </project-private>
