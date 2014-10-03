@@ -212,7 +212,7 @@ public class FishyRobot extends IterativeRobot {
             } else {
                 CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.HIGH_SPEED);
             }
-//        CommandBase.driveTrainSubsystem.printEncoders();
+      //  CommandBase.driveTrainSubsystem.printEncoders();
 
             if (CommandBase.oi.shooter.isBackwardShootClawPositionButtonPressed()) {
                 clawPIDSequence(ClawPivotSubsystem.BACKWARD_SHOOT);
