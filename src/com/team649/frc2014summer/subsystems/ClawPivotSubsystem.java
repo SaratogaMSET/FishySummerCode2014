@@ -22,27 +22,29 @@ public class ClawPivotSubsystem extends Subsystem implements PIDOutput {
 
     public static final double kP = -.32;
     public static final double kI = -.052;
-    public static final double kD = -0.059;
+    public static final double kD = -0.12;//-0.059;
     public static final double MAX_BACKWARD_SPEED = .4;
-    public static final double MAX_FORWARD_SPEED = -.6;
-    public static final double FULL_BACKWARD_POSITION = .9;
+    public static final double MAX_FORWARD_SPEED = -.4;
+    public static final double FULL_BACKWARD_POSITION = .3;
     public static final double FULL_FORWARD_POSITION = 5.2;
     public static final int STORE = 3;
     public static final int FORWARD_SHOOT = 2;
+    public static final int FORWARD_SHOOT_AUTO = 5;
     public static final int PICKUP = 1;
     public static final int BACKWARD_SHOOT = 0;
     public static final int GOAL_SHOOT = 4;
-    public static final int NO_STATE = 5;
-    public static final double[] CLAW_POT_STATES = new double[5];
-    public static final String[] CLAW_POT_NAMES = new String[5];
+    public static final int NO_STATE = 6;
+    public static final double[] CLAW_POT_STATES = new double[6];
+    public static final String[] CLAW_POT_NAMES = new String[6];
 
     static {
-        CLAW_POT_STATES[PICKUP] = 4.7;
+        CLAW_POT_STATES[PICKUP] = 4.85;
         //42.5 degrees
-        CLAW_POT_STATES[FORWARD_SHOOT] = 2.91;
+        CLAW_POT_STATES[FORWARD_SHOOT] = 3.01; //3.11;
         CLAW_POT_STATES[BACKWARD_SHOOT] = 1.47;
-        CLAW_POT_STATES[STORE] = 2.2;
+        CLAW_POT_STATES[STORE] = 2.0;
         CLAW_POT_STATES[GOAL_SHOOT] = 1.63;
+        CLAW_POT_STATES[FORWARD_SHOOT_AUTO] = 3.11;
         CLAW_POT_NAMES[FORWARD_SHOOT] = "FWD SHOOT";
         CLAW_POT_NAMES[BACKWARD_SHOOT] = "BCK SHOOT";
         CLAW_POT_NAMES[PICKUP] = "PICKUP";
@@ -61,7 +63,7 @@ public class ClawPivotSubsystem extends Subsystem implements PIDOutput {
         motor2 = new Victor(RobotMap.CLAW_PIVOT.MOTOR2);
         potentiometer = new AnalogPotentiometer(RobotMap.CLAW_PIVOT.POTENTIOMETER);
         clawPID = new PIDController649(kP, kI, kD, potentiometer, this);
-        clawPID.setAbsoluteTolerance(0.01);
+        clawPID.setAbsoluteTolerance(0.04);
         clawPID.setOutputRange(MAX_FORWARD_SPEED, MAX_BACKWARD_SPEED);
     }
 

@@ -57,15 +57,15 @@ public class FishyRobot extends IterativeRobot {
         SmartDashboard.putNumber("waitTime", 1000);
         // Initialize all subsystems
         CommandBase.init();
-        autonomousModeChooser = new SendableChooser();
-        autonomousModeChooser.addObject("Do Nothing Autonomous", DO_NOTHING_AUTO_NAME);
-        autonomousModeChooser.addObject("Wait and Drive Autonomous", WAIT_AND_DRIVE_AUTO_NAME);
-        autonomousModeChooser.addDefault("One Ball Short Drive Autonomous", ONE_BALL_SHORT_DRIVE_AUTO_NAME);
-        //       autonomousModeChooser.addDefault("One Ball Driving Shot Autonomous", ONE_BALL_RUNNING_SHOT_AUTO_NAME);
-        autonomousModeChooser.addDefault("Two Ball Short Drive Autonomous", TWO_BALL_SHORT_DRIVE_AUTO_NAME);
-//        autonomousModeChooser.addObject("Two Ball Running Autonomous", TWO_BALL_RUNNING_SHOT_AUTO_NAME);
-        SmartDashboard.putData("Autonomous", autonomousModeChooser);
-        SmartDashboard.putData(new HotVisionWaitCommand());
+//        autonomousModeChooser = new SendableChooser();
+//        autonomousModeChooser.addObject("Do Nothing Autonomous", DO_NOTHING_AUTO_NAME);
+//        autonomousModeChooser.addObject("Wait and Drive Autonomous", WAIT_AND_DRIVE_AUTO_NAME);
+//        autonomousModeChooser.addDefault("One Ball Short Drive Autonomous", ONE_BALL_SHORT_DRIVE_AUTO_NAME);
+//        //       autonomousModeChooser.addDefault("One Ball Driving Shot Autonomous", ONE_BALL_RUNNING_SHOT_AUTO_NAME);
+//        autonomousModeChooser.addDefault("Two Ball Short Drive Autonomous", TWO_BALL_SHORT_DRIVE_AUTO_NAME);
+////        autonomousModeChooser.addObject("Two Ball Running Autonomous", TWO_BALL_RUNNING_SHOT_AUTO_NAME);
+//        SmartDashboard.putData("Autonomous", autonomousModeChooser);
+//        SmartDashboard.putData(new HotVisionWaitCommand());
     }
 
     public void disabledInit() {
@@ -87,8 +87,8 @@ public class FishyRobot extends IterativeRobot {
 //        Display.marquee(4, "YEEAAHHHH", 0, 7, true, false);
 //        Display.marquee(5, "AUTONOMOOSE MODE", 2, 5, true, true);
 //        Display.marquee(6, "YOU CAN DO IT!!!!", 5, 5, true, false);
-        final String selectedAuto = (String) autonomousModeChooser.getSelected();
-        Display.printToOutputStream("selected auto: " + selectedAuto);
+        //final String selectedAuto = (String) autonomousModeChooser.getSelected();
+        //Display.printToOutputStream("selected auto: " + selectedAuto);
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
@@ -99,21 +99,9 @@ public class FishyRobot extends IterativeRobot {
         CommandBase.clawRollerSubsystem.runMotor(0);
         CommandBase.clawWinchSubsystem.stopMotor();
         Scheduler.getInstance().removeAll();
-
-        if (selectedAuto.equals(DO_NOTHING_AUTO_NAME)) {
-            autonomousCommand = CommandBase.doNothingAutonomous();
-        } else if (selectedAuto.equals(TWO_BALL_SHORT_DRIVE_AUTO_NAME)) {
-            autonomousCommand = CommandBase.twoBallShortDriveAutonomous();
-        } else if (selectedAuto.equals(WAIT_AND_DRIVE_AUTO_NAME)) {
-            autonomousCommand = CommandBase.waitAndDriveAutonomous();
-//      }else if (selectedAuto.equals(ONE_BALL_RUNNING_SHOT_AUTO_NAME)) {
-//            autonomousCommand = CommandBase.shootHotGoalDrivingFireAutonomous();
-//      } else if (selectedAuto.equals(TWO_BALL_RUNNING_SHOT_AUTO_NAME)) {
-//            autonomousCommand = CommandBase.twoBallDrivingFireAutonomous();    
-        } else {
-            autonomousCommand = CommandBase.shootHotGoalShortDriveAutonomous();
-        }
-
+        
+        
+        autonomousCommand = CommandBase.shootHotGoalShortDriveAutonomous();
         autonomousCommand.start();
         setSolenoidsToDefault();
         firstPeriodic = true;
@@ -164,40 +152,40 @@ public class FishyRobot extends IterativeRobot {
             //
             //
 /*
-            if (CommandBase.oi.manual.isFingerButtonPressed()) {
-                //fingerSolenoid.set(fingerState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
-                if (CommandBase.clawFingerSubsystem.state == ClawFingerSubsystem.DOWN) {
-                    CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.UP);
-                } else {
-                    CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.DOWN);
-                }
-            }
+             if (CommandBase.oi.manual.isFingerButtonPressed()) {
+             //fingerSolenoid.set(fingerState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+             if (CommandBase.clawFingerSubsystem.state == ClawFingerSubsystem.DOWN) {
+             CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.UP);
+             } else {
+             CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.DOWN);
+             }
+             }
 
-            if (CommandBase.oi.manual.isManualWinchButtonPressed()) {
-                CommandBase.clawWinchSubsystem.runMotor();
-            } else {
-                CommandBase.clawWinchSubsystem.stopMotor();
-            }
+             if (CommandBase.oi.manual.isManualWinchButtonPressed()) {
+             CommandBase.clawWinchSubsystem.runMotor();
+             } else {
+             CommandBase.clawWinchSubsystem.stopMotor();
+             }
 
-            if (CommandBase.oi.manual.isShooterSafetyButtonPressed() && CommandBase.oi.manual.isShooterTriggerButtonPressed()) {
-                CommandBase.clawWinchSubsystem.setSolenoid(false);
-            } else {
-                CommandBase.clawWinchSubsystem.setSolenoid(true);
-            }
+             if (CommandBase.oi.manual.isShooterSafetyButtonPressed() && CommandBase.oi.manual.isShooterTriggerButtonPressed()) {
+             CommandBase.clawWinchSubsystem.setSolenoid(false);
+             } else {
+             CommandBase.clawWinchSubsystem.setSolenoid(true);
+             }
 
-            if (CommandBase.oi.manual.getRollerButtonsPressed() == -1) {
-                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED);
-                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_RUN_SPEED);
-            } else if (CommandBase.oi.manual.getRollerButtonsPressed() == 1) {
-                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_PURGE_SPEED);
-                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
-            } else {
-                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED);
-                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
-            }
-            CommandBase.clawPivotSubsystem.setPower(CommandBase.oi.manual.getManualShooterJoystickY());
+             if (CommandBase.oi.manual.getRollerButtonsPressed() == -1) {
+             CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED);
+             CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_RUN_SPEED);
+             } else if (CommandBase.oi.manual.getRollerButtonsPressed() == 1) {
+             CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_PURGE_SPEED);
+             CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
+             } else {
+             CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED);
+             CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
+             }
+             CommandBase.clawPivotSubsystem.setPower(CommandBase.oi.manual.getManualShooterJoystickY());
             
-            */
+             */
             //
             //
             //
@@ -212,7 +200,7 @@ public class FishyRobot extends IterativeRobot {
             } else {
                 CommandBase.driveTrainSubsystem.shiftDriveGear(DriveTrainSubsystem.HIGH_SPEED);
             }
-      //  CommandBase.driveTrainSubsystem.printEncoders();
+            //  CommandBase.driveTrainSubsystem.printEncoders();
 
             if (CommandBase.oi.shooter.isBackwardShootClawPositionButtonPressed()) {
                 clawPIDSequence(ClawPivotSubsystem.BACKWARD_SHOOT);

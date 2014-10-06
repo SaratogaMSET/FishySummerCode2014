@@ -78,41 +78,41 @@ public abstract class CommandBase extends Command {
     }
 
     public static Command shootHotGoalShortDriveAutonomous() {
-        CommandGroup driveAndCheckGoal = driveAndPrepareToShoot(false, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT, 0, 2.5);
+        CommandGroup driveAndCheckGoal = driveAndPrepareToShoot(false, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT, 6, 6.5);
         CommandGroup mainAutonomousSequence = new CommandGroup("mainAutoSeq");
         //drive and check goal. When both are done (checking goal and driving), shoot
         mainAutonomousSequence.addSequential(setFingerPosition(ClawFingerSubsystem.DOWN));
         mainAutonomousSequence.addSequential(new SetClawWinchSolenoid(true));
         mainAutonomousSequence.addSequential(driveAndCheckGoal);
-        mainAutonomousSequence.addSequential(new WaitCommand(200));
+      //  mainAutonomousSequence.addParallel(new WaitCommand(3000));
         mainAutonomousSequence.addSequential(shootBall());
         return mainAutonomousSequence;
     }
+//
+//    public static Command twoBallShortDriveAutonomous() {
+//        CommandGroup mainAutonomousSequence = new CommandGroup("mainAutoSeq");
+//        mainAutonomousSequence.addSequential(driveAndPrepareToShoot(false, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT, 0, 1.6));
+//        mainAutonomousSequence.addSequential(shootBall(false));
+//        mainAutonomousSequence.addParallel(autoCoilClawWinch(), ClawWinchSubsystem.MAX_COIL_TIME);
+//        mainAutonomousSequence.addSequential(repositionAndPickup(DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT));
+//        mainAutonomousSequence.addParallel(realignBall());
+//        mainAutonomousSequence.addSequential(driveAndPrepareToShoot(false, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT - 16, 9.2, 10));
+//        mainAutonomousSequence.addSequential(shootBall());
+//        return mainAutonomousSequence;
+//    }
 
-    public static Command twoBallShortDriveAutonomous() {
-        CommandGroup mainAutonomousSequence = new CommandGroup("mainAutoSeq");
-        mainAutonomousSequence.addSequential(driveAndPrepareToShoot(false, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT, 0, 1.6));
-        mainAutonomousSequence.addSequential(shootBall(false));
-        mainAutonomousSequence.addParallel(autoCoilClawWinch(), ClawWinchSubsystem.MAX_COIL_TIME);
-        mainAutonomousSequence.addSequential(repositionAndPickup(DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT));
-        mainAutonomousSequence.addParallel(realignBall());
-        mainAutonomousSequence.addSequential(driveAndPrepareToShoot(false, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_SHORT - 16, 9.2, 10));
-        mainAutonomousSequence.addSequential(shootBall());
-        return mainAutonomousSequence;
-    }
-
-    private static CommandGroup repositionAndPickup(double driveDistance) {
-        CommandGroup repositionAndPickup = new CommandGroup();
-        //Extra 12 inches might be unnesscary, check that
-        repositionAndPickup.addParallel(new SetClawPosition(ClawPivotSubsystem.PICKUP));
-        repositionAndPickup.addSequential(new WaitCommand(500));
-
-        repositionAndPickup.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED, true));
-       
-        repositionAndPickup.addSequential(new DriveSetDistanceWithPIDCommand(-driveDistance + 28, 0.33));
-
-        return repositionAndPickup;
-    }
+//    private static CommandGroup repositionAndPickup(double driveDistance) {
+//        CommandGroup repositionAndPickup = new CommandGroup();
+//        //Extra 12 inches might be unnesscary, check that
+//        repositionAndPickup.addParallel(new SetClawPosition(ClawPivotSubsystem.PICKUP));
+//        repositionAndPickup.addSequential(new WaitCommand(500));
+//
+//        repositionAndPickup.addSequential(new RunRollers(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED, true));
+//       
+//        repositionAndPickup.addSequential(new DriveSetDistanceWithPIDCommand(-driveDistance + 28, 0.33));
+//
+//        return repositionAndPickup;
+//    }
 
     private static CommandGroup realignBall() {
         CommandGroup realign = new CommandGroup();
@@ -140,7 +140,8 @@ public abstract class CommandBase extends Command {
 
         ChangeableBoolean driveFinishedChecker = new ChangeableBoolean(false);
         driveAndCheckGoal.addParallel(new DriveSetDistanceWithPIDCommand(driveDistance, minDriveSpeed, driveFinishedChecker));
-        driveAndCheckGoal.addSequential(new SetClawPosition(ClawPivotSubsystem.BACKWARD_SHOOT, driveFinishedChecker, timeToFinish), timeout);
+        driveAndCheckGoal.addSequential(new SetClawPosition((ClawPivotSubsystem.FORWARD_SHOOT_AUTO), driveFinishedChecker, timeToFinish), timeout);
+        //driveAndCheckGoal.addSequential(new WaitCommand(250));
         return driveAndCheckGoal;
     }
 //    private static CommandGroup driveAndPrepareToShoot(boolean checkHot, double driveDistance) {
@@ -167,14 +168,14 @@ public abstract class CommandBase extends Command {
 //        return driveAndCheckGoal;
 //    }
 
-    public static Command waitAndDriveAutonomous() {
-        CommandGroup group = new CommandGroup("waitAndDrive");
+//    public static Command waitAndDriveAutonomous() {
+//        CommandGroup group = new CommandGroup("waitAndDrive");
 //        group.addSequential(new WaitCommand(5000));
 //        group.addSequential(new DriveSetDistanceByTimeCommand(DriveTrainSubsystem.TimeBasedDriving.DRIVE_SPEED, DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE));
-
-        group.addSequential(new DriveSetDistanceWithPIDCommand(DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_LONG));
-        return group;
-    }
+//
+//        group.addSequential(new DriveSetDistanceWithPIDCommand(DriveTrainSubsystem.EncoderBasedDriving.AUTONOMOUS_DRIVE_DISTANCE_LONG));
+//        return group;
+//    }
 
     public static CommandGroup doNothingAutonomous() {
         return new CommandGroup();
