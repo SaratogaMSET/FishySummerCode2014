@@ -13,7 +13,7 @@ public class RobotMap {
     public static final int JOYSTICK_SHOOTER = 3;
     public static final int PRESSURE_SWITCH_CHANNEL = 1;
     public static final int COMPRESSOR_RELAY_CHANNEL = 1;
-  //  public static final int JOYSTICK_SHOOTER_MANUAL = 4;
+    public static final int JOYSTICK_SHOOTER_MANUAL = 4;
 
     public static class DRIVE_TRAIN {
 

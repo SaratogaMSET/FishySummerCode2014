@@ -46,6 +46,7 @@ public class FishyRobot extends IterativeRobot {
     private boolean firstPeriodic;
 //    Command autonomousCommand;
 //    private SupaHotFire supaHotFire;
+    private boolean prevPressed;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -99,8 +100,7 @@ public class FishyRobot extends IterativeRobot {
         CommandBase.clawRollerSubsystem.runMotor(0);
         CommandBase.clawWinchSubsystem.stopMotor();
         Scheduler.getInstance().removeAll();
-        
-        
+
         autonomousCommand = CommandBase.shootHotGoalShortDriveAutonomous();
         autonomousCommand.start();
         setSolenoidsToDefault();
@@ -129,6 +129,7 @@ public class FishyRobot extends IterativeRobot {
         CommandBase.driveTrainSubsystem.startEncoders();
         Display.marquee(1, "2014 ENABLED", 5, 5, true, true);
         setSolenoidsToDefault();
+        prevPressed = false;
     }
 
     private void setSolenoidsToDefault() {
@@ -151,41 +152,46 @@ public class FishyRobot extends IterativeRobot {
             //
             //
             //
-/*
-             if (CommandBase.oi.manual.isFingerButtonPressed()) {
-             //fingerSolenoid.set(fingerState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
-             if (CommandBase.clawFingerSubsystem.state == ClawFingerSubsystem.DOWN) {
-             CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.UP);
-             } else {
-             CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.DOWN);
-             }
-             }
+            if (!CommandBase.oi.manual.isFingerButtonPressed()) {
+                prevPressed = false;
+            } else if (!prevPressed) {
+                prevPressed = true;
+                System.out.println("presed");
+                System.out.println(CommandBase.clawFingerSubsystem.state);
+                //fingerSolenoid.set(fingerState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+                if (CommandBase.clawFingerSubsystem.state == ClawFingerSubsystem.DOWN) {
+                    CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.UP);
+                    System.out.println("moved up");
+                } else {
+                    CommandBase.clawFingerSubsystem.setFingerPosition(ClawFingerSubsystem.DOWN);
+                    System.out.println("moved down");
+                }
+            }
 
-             if (CommandBase.oi.manual.isManualWinchButtonPressed()) {
-             CommandBase.clawWinchSubsystem.runMotor();
-             } else {
-             CommandBase.clawWinchSubsystem.stopMotor();
-             }
+            if (CommandBase.oi.manual.isManualWinchButtonPressed()) {
+                CommandBase.clawWinchSubsystem.runMotor();
+            } else {
+                CommandBase.clawWinchSubsystem.stopMotor();
+            }
 
-             if (CommandBase.oi.manual.isShooterSafetyButtonPressed() && CommandBase.oi.manual.isShooterTriggerButtonPressed()) {
-             CommandBase.clawWinchSubsystem.setSolenoid(false);
-             } else {
-             CommandBase.clawWinchSubsystem.setSolenoid(true);
-             }
+            if (CommandBase.oi.manual.isShooterSafetyButtonPressed() && CommandBase.oi.manual.isShooterTriggerButtonPressed()) {
+                CommandBase.clawWinchSubsystem.setSolenoid(false);
+            } else {
+                CommandBase.clawWinchSubsystem.setSolenoid(true);
+            }
 
-             if (CommandBase.oi.manual.getRollerButtonsPressed() == -1) {
-             CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED);
-             CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_RUN_SPEED);
-             } else if (CommandBase.oi.manual.getRollerButtonsPressed() == 1) {
-             CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_PURGE_SPEED);
-             CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
-             } else {
-             CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED);
-             CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
-             }
-             CommandBase.clawPivotSubsystem.setPower(CommandBase.oi.manual.getManualShooterJoystickY());
-            
-             */
+            if (CommandBase.oi.manual.getRollerButtonsPressed() == -1) {
+                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_INTAKE_SPEED);
+                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_RUN_SPEED);
+            } else if (CommandBase.oi.manual.getRollerButtonsPressed() == 1) {
+                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_PURGE_SPEED);
+                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
+            } else {
+                CommandBase.clawRollerSubsystem.runMotor(ClawRollerSubsystem.ROLLER_SPIN_OFF_SPEED);
+                CommandBase.clawForksSubsystem.runForks(ClawForksSubsystem.FORK_OFF_SPEED);
+            }
+            CommandBase.clawPivotSubsystem.setPower(CommandBase.oi.manual.getManualShooterJoystickY());
+
             //
             //
             //

@@ -30,8 +30,8 @@ public class ClawFingerSubsystem extends Subsystem {
     protected void initDefaultCommand() {
     }
 
-    public void setFingerPosition(int state) {
-        switch (state) {
+    public void setFingerPosition(int givenState) {
+        switch (givenState) {
             case (ClawFingerSubsystem.UP):
                 clawSolenoid.set(DoubleSolenoid.Value.kReverse);
                 state = 1;

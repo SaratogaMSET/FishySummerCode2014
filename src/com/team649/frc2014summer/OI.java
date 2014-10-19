@@ -12,21 +12,21 @@ public class OI {
     private Joystick vertical;
     private Joystick horizontal;
     private Joystick shooterJoystick;
-  //  private Joystick fullManualShooterJoystick;
+    private Joystick fullManualShooterJoystick;
 
     private double ROTATION_POWER = 1.5;
     public final Driver driver;
     public final Shooter shooter;
-   // public final Manual manual;
+    public final Manual manual;
 
     public OI() {
         this.vertical = new Joystick(RobotMap.JOYSTICK_DRIVER_LEFT);
         this.horizontal = new Joystick(RobotMap.JOYSTICK_DRIVER_RIGHT);
         this.shooterJoystick = new Joystick(RobotMap.JOYSTICK_SHOOTER);
-        // this.fullManualShooterJoystick = new Joystick(RobotMap.JOYSTICK_SHOOTER_MANUAL);
+         this.fullManualShooterJoystick = new Joystick(RobotMap.JOYSTICK_SHOOTER_MANUAL);
         driver = new Driver();
         shooter = new Shooter();
-   //     manual = new Manual();
+       manual = new Manual();
     }
 
     public class Driver {
@@ -123,31 +123,31 @@ public class OI {
 
     }
 
-//    public class Manual {
-//
-//        public boolean isManualWinchButtonPressed() {
-//            return (fullManualShooterJoystick.getRawButton(4));
-//        }
-//
-//        public double getManualShooterJoystickY() {
-//            return (fullManualShooterJoystick.getRawAxis(1));
-//        }
-//
-//        public double getRollerButtonsPressed() {
-//            return fullManualShooterJoystick.getRawAxis(6);
-//        }
-//
-//        public boolean isFingerButtonPressed() {
-//            return fullManualShooterJoystick.getRawButton(1);
-//        }
-//
-//        public boolean isShooterTriggerButtonPressed() {
-//            return shooterJoystick.getRawButton(8);
-//        }
-//
-//        public boolean isShooterSafetyButtonPressed() {
-//            return shooterJoystick.getRawButton(2);
-//        }
-//    }
+    public class Manual {
+
+        public boolean isManualWinchButtonPressed() {
+            return (fullManualShooterJoystick.getRawButton(4));
+        }
+
+        public double getManualShooterJoystickY() {
+            return (fullManualShooterJoystick.getRawAxis(1));
+        }
+
+        public double getRollerButtonsPressed() {
+            return fullManualShooterJoystick.getRawAxis(6);
+        }
+
+        public boolean isFingerButtonPressed() {
+            return fullManualShooterJoystick.getRawButton(1);
+        }
+
+        public boolean isShooterTriggerButtonPressed() {
+            return shooterJoystick.getRawButton(8);
+        }
+
+        public boolean isShooterSafetyButtonPressed() {
+            return shooterJoystick.getRawButton(2);
+        }
+    }
 
 }
